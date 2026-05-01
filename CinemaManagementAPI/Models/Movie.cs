@@ -8,24 +8,11 @@ namespace CinemaManagementAPI.Models
         public TimeSpan Duration { get; set; }
         public string Country { get; set; } = string.Empty;
 
-        public int Genre_ID { get; set; }
+        public string Genre_ID { get; set; } = string.Empty;
 
         public List<Actor> Actors { get; set; } = new List<Actor>();
     }
 
-    public class Actor
-    {
-        public int Actor_ID { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public DateTime Birth_Date { get; set; }
-        public string Nationality { get; set; } = string.Empty;
-    }
-
-    public class Genre
-    {
-        public int Genre_ID { get; set; }
-        public string Name { get; set; } = string.Empty;
-    }
 }
 
 
