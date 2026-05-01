@@ -7,9 +7,7 @@ namespace CinemaManagementAPI.Models
         public int Release_Year { get; set; }
         public TimeSpan Duration { get; set; }
         public string Country { get; set; } = string.Empty;
-
-        public string Genre_ID { get; set; } = string.Empty;
-
+        public List<string> Genre { get; set; } = new List<string>();
         public List<Actor> Actors { get; set; } = new List<Actor>();
     }
 

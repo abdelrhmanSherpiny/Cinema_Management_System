@@ -63,3 +63,4 @@ f:\College\Senior 1\Second term\Database\Project\Cinema_Management_System\Cinema
 f:\College\Senior 1\Second term\Database\Project\Cinema_Management_System\CinemaManagementAPI\obj\Debug\net10.0\CinemaManagementAPI.pdb
 F:\College\Senior 1\Second term\Database\Project\Cinema_Management_System\CinemaManagementAPI\obj\Debug\net10.0\CinemaManagementAPI.genruntimeconfig.cache
 F:\College\Senior 1\Second term\Database\Project\Cinema_Management_System\CinemaManagementAPI\obj\Debug\net10.0\ref\CinemaManagementAPI.dll
+F:\College\Senior 1\Second term\Database\Project\Cinema_Management_System\CinemaManagementAPI\obj\Debug\net10.0\CinemaManagementAPI.sourcelink.json
