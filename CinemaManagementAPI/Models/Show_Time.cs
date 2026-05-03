@@ -4,6 +4,7 @@ namespace CinemaManagementAPI.Models
     {
         public int Show_No { get; set; }
         public DateTime Date { get; set; }
+        public TimeSpan Start_Time { get; set; }
         public Movie Movie { get; set; } = new Movie();
         public Hall Hall { get; set; } = new Hall();
     }
