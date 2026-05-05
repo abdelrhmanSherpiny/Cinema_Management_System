@@ -1,14 +1,14 @@
 -- Insert Movies
 INSERT INTO Movie VALUES
-(1, 'Inception', 2010, '02:28:00', 'USA'),
-(2, 'Interstellar', 2014, '02:49:00', 'USA'),
-(3, 'The Dark Knight', 2008, '02:32:00', 'USA');
+('Inception', 2010, '02:28:00', 'USA'),
+('Interstellar', 2014, '02:49:00', 'USA'),
+('The Dark Knight', 2008, '02:32:00', 'USA');
 
 -- Insert Actors
 INSERT INTO Actor VALUES
-(1, 'Leonardo', 'DiCaprio', 'American', '1974-11-11'),
-(2, 'Matthew', 'McConaughey', 'American', '1969-11-04'),
-(3, 'Christian', 'Bale', 'British', '1974-01-30');
+('Leonardo', 'DiCaprio', 'American', '1974-11-11'),
+('Matthew', 'McConaughey', 'American', '1969-11-04'),
+('Christian', 'Bale', 'British', '1974-01-30');
 
 -- Insert Halls
 INSERT INTO Hall VALUES
@@ -17,9 +17,9 @@ INSERT INTO Hall VALUES
 
 -- Insert Show Times
 INSERT INTO Show_Time VALUES
-(1, '2026-05-01', '18:00:00', 1, 1),
-(2, '2026-05-01', '21:00:00', 2, 2),
-(3, '2026-05-02', '20:00:00', 3, 1);
+('2026-05-01', '18:00:00', 1, 1),
+('2026-05-01', '21:00:00', 2, 2),
+('2026-05-02', '20:00:00', 3, 1);
 
 -- Insert Seats
 INSERT INTO Seat VALUES
@@ -30,13 +30,13 @@ INSERT INTO Seat VALUES
 
 -- Insert Supervisors
 INSERT INTO Supervisor VALUES
-(1, 'Ahmed', 'Ali', 5000, 1),
-(2, 'Sara', 'Hassan', 5500, 2);
+('Ahmed', 'Ali', 5000, 1),
+('Sara', 'Hassan', 5500, 2);
 
 -- Insert Customers
 INSERT INTO Customer VALUES
-(1, 'Omar', 'Khaled', '2000-05-10'),
-(2, 'Mona', 'Youssef', '1998-08-15');
+('Omar', 'Khaled', '2000-05-10'),
+('Mona', 'Youssef', '1998-08-15');
 
 -- Insert Customer Phone Numbers
 INSERT INTO Customer_Phone_Number VALUES
@@ -46,8 +46,8 @@ INSERT INTO Customer_Phone_Number VALUES
 
 -- Insert Tickets
 INSERT INTO Ticket VALUES
-(1, 100, '17:30:00', 1, 1, 'A', 1, 1),
-(2, 120, '20:30:00', 2, 2, 'B', 2, 2);
+(100, '17:30:00', 1, 1, 'A', 1, 1),
+(120, '20:30:00', 2, 2, 'B', 2, 2);
 
 -- Insert Stars_In (Actor-Movie relationship)
 INSERT INTO Stars_In VALUES

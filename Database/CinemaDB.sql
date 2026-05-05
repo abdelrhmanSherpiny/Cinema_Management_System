@@ -24,7 +24,7 @@ Max_Capacity INT
 )
 
 create table Show_Time(
-Show_No Int IDENTITY(1,1)primary key,
+Show_No Int IDENTITY(1,1) primary key,
 Date DATE,
 Start_Time Time,
 Movie_ID INT,
@@ -45,7 +45,7 @@ Foreign KEY (Hall_No)
 REFERENCES Hall(Hall_No)
 )
 create table Supervisor(
-Supervisor_ID INT Primary Key,
+Supervisor_ID INT IDENTITY(1,1) Primary Key,
 First_Name VARCHAR(50),
 Last_Name VARCHAR(50),
 Salary INT,
@@ -54,7 +54,7 @@ Foreign KEY (Hall_No)
 REFERENCES Hall(Hall_No)
 )
 create table Customer(
-Customer_ID INT IDENTITY(1,1)PRIMARY KEY,
+Customer_ID INT IDENTITY(1,1) PRIMARY KEY,
 First_Name VARCHAR(50),
 Last_Name VARCHAR(50),
 DOB DATE,
@@ -75,7 +75,8 @@ Foreign KEY (Hall_No)
 REFERENCES Hall(Hall_No),
 Customer_ID INT,
 Foreign KEY (Customer_ID)
-REFERENCES Customer(Customer_ID)
+REFERENCES Customer(Customer_ID),
+Constraint UQ_Ticket UNIQUE (Show_No,Seat_No,Row_Letter,Hall_No)
 )
 Create Table Customer_Phone_Number(
 Customer_ID INT,

@@ -54,16 +54,26 @@ namespace CinemaManagementAPI.Controllers
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string query = @"INSERT INTO Ticket (Price, Show_No, Seat_No, Row_Letter, Hall_No, Customer_ID) 
-                                 VALUES (@Price, @Show_No, @Seat_No, @Row_Letter, @Hall_No, @Customer_ID); SELECT SCOPE_IDENTITY();";
+                string query = @"
+                    DECLARE @Computed_Hall_No INT;
+                    SELECT @Computed_Hall_No = Hall_No FROM Show_Time WHERE Show_No = @Show_No;
+
+                    DECLARE @SeatType VARCHAR(50);
+                    SELECT @SeatType = Seat_Type FROM Seat WHERE Seat_No = @Seat_No AND Row_Letter = @Row_Letter;
+
+                    DECLARE @Computed_Price INT = 50; -- Default Price
+                    IF @SeatType = 'VIP' SET @Computed_Price = 150;
+                    ELSE IF @SeatType = 'Premium' SET @Computed_Price = 100;
+
+                    INSERT INTO Ticket (Price, Show_No, Seat_No, Row_Letter, Hall_No, Customer_ID) 
+                    VALUES (@Computed_Price, @Show_No, @Seat_No, @Row_Letter, @Computed_Hall_No, @Customer_ID); 
+                    SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Price", newTicket.Price);
                     cmd.Parameters.AddWithValue("@Show_No", newTicket.Show_No);
                     cmd.Parameters.AddWithValue("@Seat_No", newTicket.Seat_No);
                     cmd.Parameters.AddWithValue("@Row_Letter", newTicket.Row_Letter);
-                    cmd.Parameters.AddWithValue("@Hall_No", newTicket.Hall_No);
                     cmd.Parameters.AddWithValue("@Customer_ID", newTicket.Customer_ID);
 
                     conn.Open();
@@ -86,18 +96,27 @@ namespace CinemaManagementAPI.Controllers
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string query = @"UPDATE Ticket 
-                                 SET Price = @Price, Show_No = @Show_No, Seat_No = @Seat_No, Row_Letter = @Row_Letter, Hall_No = @Hall_No, Customer_ID = @Customer_ID 
-                                 WHERE Ticket_ID = @id;";
+                string query = @"
+                    DECLARE @Computed_Hall_No INT;
+                    SELECT @Computed_Hall_No = Hall_No FROM Show_Time WHERE Show_No = @Show_No;
+
+                    DECLARE @SeatType VARCHAR(50);
+                    SELECT @SeatType = Seat_Type FROM Seat WHERE Seat_No = @Seat_No AND Row_Letter = @Row_Letter;
+
+                    DECLARE @Computed_Price INT = 50; -- Default Price
+                    IF @SeatType = 'VIP' SET @Computed_Price = 150;
+                    ELSE IF @SeatType = 'Premium' SET @Computed_Price = 100;
+
+                    UPDATE Ticket 
+                    SET Price = @Computed_Price, Show_No = @Show_No, Seat_No = @Seat_No, Row_Letter = @Row_Letter, Hall_No = @Computed_Hall_No, Customer_ID = @Customer_ID 
+                    WHERE Ticket_ID = @id;";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@Price", updatedTicket.Price);
                     cmd.Parameters.AddWithValue("@Show_No", updatedTicket.Show_No);
                     cmd.Parameters.AddWithValue("@Seat_No", updatedTicket.Seat_No);
                     cmd.Parameters.AddWithValue("@Row_Letter", updatedTicket.Row_Letter);
-                    cmd.Parameters.AddWithValue("@Hall_No", updatedTicket.Hall_No);
                     cmd.Parameters.AddWithValue("@Customer_ID", updatedTicket.Customer_ID);
 
                     conn.Open();
