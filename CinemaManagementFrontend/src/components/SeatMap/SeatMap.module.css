@@ -1,0 +1,175 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.screen {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.screenBar {
+  width: 70%;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, var(--blue-accent), transparent);
+  border-radius: 50%;
+  margin: 0 auto 0.75rem;
+  box-shadow: 0 0 30px rgba(42, 159, 255, 0.3), 0 0 60px rgba(42, 159, 255, 0.1);
+}
+
+.screenLabel {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.seatGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.seatRow {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.rowLabel {
+  width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.seat {
+  width: 36px;
+  height: 32px;
+  border-radius: 6px 6px 3px 3px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seatRegular {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+}
+
+.seatRegular:hover {
+  background: rgba(42, 159, 255, 0.2);
+  border-color: var(--blue-accent);
+  transform: scale(1.1);
+}
+
+.seatPremium {
+  background: rgba(245, 197, 24, 0.1);
+  border: 1px solid rgba(245, 197, 24, 0.3);
+  color: var(--gold-accent);
+}
+
+.seatPremium:hover {
+  background: rgba(245, 197, 24, 0.25);
+  border-color: var(--gold-accent);
+  transform: scale(1.1);
+}
+
+.seatVIP {
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  color: var(--accent-color);
+}
+
+.seatVIP:hover {
+  background: rgba(229, 9, 20, 0.25);
+  border-color: var(--accent-color);
+  transform: scale(1.1);
+}
+
+.seatSelected {
+  background: var(--blue-accent) !important;
+  border-color: var(--blue-accent) !important;
+  color: white !important;
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(42, 159, 255, 0.4);
+}
+
+.seatBooked {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: transparent !important;
+  color: rgba(255, 255, 255, 0.15) !important;
+  cursor: not-allowed !important;
+}
+
+.seatBooked:hover {
+  transform: none;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legendSwatch {
+  width: 20px;
+  height: 18px;
+  border-radius: 4px 4px 2px 2px;
+}
+
+.swatchRegular {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+}
+
+.swatchPremium {
+  background: rgba(245, 197, 24, 0.1);
+  border: 1px solid rgba(245, 197, 24, 0.3);
+}
+
+.swatchVIP {
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+}
+
+.swatchSelected {
+  background: var(--blue-accent);
+}
+
+.swatchBooked {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+}
+
+.priceLabel {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem;
+}

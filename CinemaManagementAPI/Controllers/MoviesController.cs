@@ -22,7 +22,7 @@ namespace CinemaManagementAPI.Controllers
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string movie_query = "SELECT m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country, STRING_AGG(g.Genre, ', ') AS GenresCSV FROM Movie m LEFT JOIN Genre_Of_Movie g ON m.Movie_ID = g.Movie_ID GROUP BY m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country ORDER by Release_Year DESC;";
+                string movie_query = "SELECT m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country, m.Poster_URL, STRING_AGG(g.Genre, ', ') AS GenresCSV FROM Movie m LEFT JOIN Genre_Of_Movie g ON m.Movie_ID = g.Movie_ID GROUP BY m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country, m.Poster_URL ORDER by Release_Year DESC;";
                 using (SqlCommand movie_cmd = new SqlCommand(movie_query, conn))
                 {
                     conn.Open();
@@ -37,7 +37,8 @@ namespace CinemaManagementAPI.Controllers
                                 Release_Year = Convert.ToInt32(movie_reader["Release_Year"]),
                                 Duration = (TimeSpan)movie_reader["Duration"],
                                 Country = movie_reader["Country"].ToString(),
-                                Genre = movie_reader["GenresCSV"].ToString().Split(',').Select(s => s.Trim()).ToList()
+                                Poster_URL = movie_reader["Poster_URL"] != DBNull.Value ? movie_reader["Poster_URL"].ToString() : string.Empty,
+                                Genre = movie_reader["GenresCSV"] != DBNull.Value ? movie_reader["GenresCSV"].ToString().Split(',').Select(s => s.Trim()).ToList() : new List<string>()
                             });
 
                         }
@@ -82,7 +83,7 @@ namespace CinemaManagementAPI.Controllers
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
 
-                string query = "SELECT * FROM (SELECT m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country,STRING_AGG(g.Genre, ', ') AS GenresCSV FROM Movie m LEFT JOIN Genre_Of_Movie g  ON m.Movie_ID = g.Movie_ID  GROUP BY m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country)  AS Movies_With_Genres WHERE 1=1";
+                string query = "SELECT * FROM (SELECT m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country, m.Poster_URL, STRING_AGG(g.Genre, ', ') AS GenresCSV FROM Movie m LEFT JOIN Genre_Of_Movie g  ON m.Movie_ID = g.Movie_ID  GROUP BY m.Movie_ID, m.Title, m.Release_Year, m.Duration, m.Country, m.Poster_URL)  AS Movies_With_Genres WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(Title))
                 {
@@ -120,7 +121,8 @@ namespace CinemaManagementAPI.Controllers
                                 Release_Year = Convert.ToInt32(movie_reader["Release_Year"]),
                                 Duration = (TimeSpan)movie_reader["Duration"],
                                 Country = movie_reader["Country"].ToString(),
-                                Genre = movie_reader["GenresCSV"].ToString().Split(',').Select(s => s.Trim()).ToList()
+                                Poster_URL = movie_reader["Poster_URL"] != DBNull.Value ? movie_reader["Poster_URL"].ToString() : string.Empty,
+                                Genre = movie_reader["GenresCSV"] != DBNull.Value ? movie_reader["GenresCSV"].ToString().Split(',').Select(s => s.Trim()).ToList() : new List<string>()
                             });
                         }
                     }
@@ -166,8 +168,8 @@ namespace CinemaManagementAPI.Controllers
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 int newMovieID = 0;
-                string query = @"INSERT INTO Movie (Title, Release_Year, Duration, Country) 
-                                 VALUES (@Title, @Release_Year, @Duration, @Country); SELECT SCOPE_IDENTITY();";
+                string query = @"INSERT INTO Movie (Title, Release_Year, Duration, Country, Poster_URL) 
+                                 VALUES (@Title, @Release_Year, @Duration, @Country, @Poster_URL); SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand movie_cmd = new SqlCommand(query, conn))
                 {
@@ -175,6 +177,7 @@ namespace CinemaManagementAPI.Controllers
                     movie_cmd.Parameters.AddWithValue("@Release_Year", newMovie.Release_Year);
                     movie_cmd.Parameters.AddWithValue("@Duration", newMovie.Duration);
                     movie_cmd.Parameters.AddWithValue("@Country", newMovie.Country);
+                    movie_cmd.Parameters.AddWithValue("@Poster_URL", string.IsNullOrEmpty(newMovie.Poster_URL) ? (object)DBNull.Value : newMovie.Poster_URL);
 
                     conn.Open();
                     newMovieID = Convert.ToInt32(movie_cmd.ExecuteScalar());
@@ -230,7 +233,7 @@ namespace CinemaManagementAPI.Controllers
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                string query = @"UPDATE Movie SET Title = @Title, Release_Year = @Release_Year, Duration = @Duration, Country = @Country WHERE Movie_ID = @id;";
+                string query = @"UPDATE Movie SET Title = @Title, Release_Year = @Release_Year, Duration = @Duration, Country = @Country, Poster_URL = @Poster_URL WHERE Movie_ID = @id;";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -239,6 +242,7 @@ namespace CinemaManagementAPI.Controllers
                     cmd.Parameters.AddWithValue("@Release_Year", updatedMovie.Release_Year);
                     cmd.Parameters.AddWithValue("@Duration", updatedMovie.Duration);
                     cmd.Parameters.AddWithValue("@Country", updatedMovie.Country);
+                    cmd.Parameters.AddWithValue("@Poster_URL", string.IsNullOrEmpty(updatedMovie.Poster_URL) ? (object)DBNull.Value : updatedMovie.Poster_URL);
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();

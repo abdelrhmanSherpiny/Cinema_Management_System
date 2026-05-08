@@ -1,36 +1,52 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import SupervisorLogin from './components/SupervisorLogin/SupervisorLogin';
+import Movies from './pages/Movies/Movies';
+import Tickets from './pages/Tickets/Tickets';
+import Customers from './pages/Customers/Customers';
+import Supervisors from './pages/Supervisors/Supervisors';
 
 function App() {
-  // This is React's state management (similar to managing state in Cubit)
-  const [movies, setMovies] = useState([]);
+  const [supervisor, setSupervisor] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // useEffect runs automatically when the component loads
-  useEffect(() => {
-    // Replace this URL with your actual C# API URL
-    fetch('http://localhost:5246/cms/movies')
-      .then(response => response.json())
-      .then(data => {
-        setMovies(data); // Save the database JSON into our state
-      })
-      .catch(error => console.error("Error fetching movies:", error));
-  }, []);
+  const handleLogin = (selectedSupervisor) => {
+    setSupervisor(selectedSupervisor);
+    setShowLoginModal(false);
+  };
+
+  const handleLogout = () => {
+    setSupervisor(null);
+  };
 
   return (
-    <div>
-      <h1>Cinema Movies</h1>
-      <div className="movie-grid">
-        {/* We loop through the state and build UI for each movie */}
-        {movies.map(movie => (
-          <div key={movie.movie_ID} className="movie-card">
-            <h3>{movie.title}</h3>
-            <p>Year: {movie.release_Year}</p>
-            <p>Country: {movie.country}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+    <>
+      <Routes>
+        <Route
+          element={
+            <Layout
+              supervisor={supervisor}
+              onLoginClick={() => setShowLoginModal(true)}
+              onLogout={handleLogout}
+            />
+          }
+        >
+          <Route path="/" element={<Movies isSupervisor={!!supervisor} />} />
+          <Route path="/tickets" element={<Tickets />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/supervisors" element={<Supervisors />} />
+        </Route>
+      </Routes>
+
+      {showLoginModal && (
+        <SupervisorLogin
+          onClose={() => setShowLoginModal(false)}
+          onSelect={handleLogin}
+        />
+      )}
+    </>
+  );
 }
 
-export default App
+export default App;
