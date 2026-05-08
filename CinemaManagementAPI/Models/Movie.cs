@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace CinemaManagementAPI.Models
 {
     public class Movie
@@ -7,10 +9,11 @@ namespace CinemaManagementAPI.Models
         public int Release_Year { get; set; }
         public TimeSpan Duration { get; set; }
         public string Country { get; set; } = string.Empty;
+
+        [JsonPropertyName("poster_URL")]
+        public string Poster_URL { get; set; } = string.Empty;
+
         public List<string> Genre { get; set; } = new List<string>();
         public List<Actor> Actors { get; set; } = new List<Actor>();
     }
-
 }
-
-

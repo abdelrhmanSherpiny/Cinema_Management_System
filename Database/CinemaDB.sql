@@ -7,7 +7,8 @@ Movie_ID INT IDENTITY(1,1) Primary key,
 Title VARCHAR(100),
 Release_Year INT,
 Duration TIME,
-Country VARCHAR(50)
+Country VARCHAR(50),
+Poster_URL VARCHAR(500)
 )
 
 create table Actor(

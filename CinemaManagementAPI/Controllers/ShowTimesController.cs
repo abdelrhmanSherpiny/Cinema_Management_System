@@ -36,6 +36,49 @@ namespace CinemaManagementAPI.Controllers
                             {
                                 Show_No = Convert.ToInt32(reader["Show_No"]),
                                 Date = reader["Date"] != DBNull.Value ? Convert.ToDateTime(reader["Date"]) : DateTime.MinValue,
+                                Start_Time = reader["Start_Time"] != DBNull.Value ? (TimeSpan)reader["Start_Time"] : TimeSpan.Zero,
+                                Movie = new Movie
+                                {
+                                    Movie_ID = reader["Movie_ID"] != DBNull.Value ? Convert.ToInt32(reader["Movie_ID"]) : 0,
+                                    Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : string.Empty
+                                },
+                                Hall = new Hall
+                                {
+                                    Hall_No = reader["Hall_No"] != DBNull.Value ? Convert.ToInt32(reader["Hall_No"]) : 0
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            return Ok(showTimesList);
+        }
+
+        [HttpGet("movie/{movieId}")]
+        public IActionResult GetShowTimesByMovie(int movieId)
+        {
+            List<Show_Time> showTimesList = new List<Show_Time>();
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT s.Show_No, s.Date, s.Start_Time, s.Movie_ID, s.Hall_No, m.Title 
+                                 FROM Show_Time s 
+                                 LEFT JOIN Movie m ON s.Movie_ID = m.Movie_ID 
+                                 WHERE s.Movie_ID = @Movie_ID
+                                 ORDER BY s.Date, s.Start_Time;";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Movie_ID", movieId);
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            showTimesList.Add(new Show_Time
+                            {
+                                Show_No = Convert.ToInt32(reader["Show_No"]),
+                                Date = reader["Date"] != DBNull.Value ? Convert.ToDateTime(reader["Date"]) : DateTime.MinValue,
+                                Start_Time = reader["Start_Time"] != DBNull.Value ? (TimeSpan)reader["Start_Time"] : TimeSpan.Zero,
                                 Movie = new Movie
                                 {
                                     Movie_ID = reader["Movie_ID"] != DBNull.Value ? Convert.ToInt32(reader["Movie_ID"]) : 0,
